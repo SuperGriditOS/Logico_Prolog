@@ -1,4 +1,4 @@
-anioActual(2015).
+nioActual(2015).
 %festival(nombre, lugar, bandas, precioBase).
 
 %lugar(nombre, capacidad).
