@@ -1,4 +1,4 @@
-oActual(2015).
+anioActual(2015).
 %festival(nombre, lugar, bandas, precioBase).
 
 %lugar(nombre, capacidad).
@@ -57,7 +57,7 @@ surgioHacePoco(Banda):-
 esCareta(Festival):-
     participanDosBandasDeModa(Festival).
 esCareta(Festival):-
-    entradasRazonables(Festival,Entrada).
+    entradasRazonables(Festival,_).
 esCareta(Festival):-
     tocaMiranda(Festival).
 
@@ -77,8 +77,8 @@ entradasRazonables(Festival,Entrada):-
     esRazonablePlateaGeneral(Festival,Entrada).
 entradasRazonables(Festival,Entrada):-
     esRazonableCampo(Festival,Entrada).
-%entradasRazonables(Festival,Entrada):-
- %   esRazonablePlateaNumerada(Festival,Entrada).
+entradasRazonables(Festival,Entrada):-
+    esRazonablePlateaNumerada(Festival,Entrada).
 
 esRazonablePlateaGeneral(Festival,plateaGeneral(Zona)):-
     festival(Festival, lugar(Lugar,_), _, PrecioBase),
@@ -91,24 +91,20 @@ esRazonableCampo(Festival,campo):-
     sumaDePopularidades(Bandas, PopularidadTotal),
     PrecioBase < PopularidadTotal.
 
-sumaDePopularidades(Festival, PopularidadTotal):-
+sumaDePopularidades(Festival, PopularidadTotal):- 
     festival(Festival, _, Bandas, _),
     findall(Popularidad, (member(Banda, Bandas), banda(Banda, _, _, Popularidad)), Popularidades),
-    sumlist(Popularidades, PopularidadTotal).
+    sum_list(Popularidades, PopularidadTotal).
 
-/*esRazonablePlateaNumerada(Festival,plateaNumerada(Fila)):-
-    festival(Festival, lugar(_,Capacidad), Bandas, PrecioBase),
-    forall(not(estaDeModa(Bandas))),
-    precioPlateaNumerada(Festival, Fila, Precio),
-    sumaDePopularidades(Bandas, PopularidadTotal).
-    Precio < Capacidad/PopularidadTotal.
 esRazonablePlateaNumerada(Festival,plateaNumerada(Fila)):-
     precioPlateaNumerada(Festival, Fila, Precio),
     Precio < 750.
-
+esRazonablePlateaNumerada(Festival,plateaNumerada(Fila)):-
+    festival(Festival, lugar(_,Capacidad), _, _),
+    precioPlateaNumerada(Festival, Fila, Precio),
+    sumaDePopularidades(Festival, PopularidadTotal),
+    Precio < (Capacidad/PopularidadTotal).
 
 precioPlateaNumerada(Festival, Fila, Precio):-
-    festival(Festival, lugar(_,Capacidad), _, PrecioBase),
-    Precio is (PrecioBase + 200)/Fila.
-
-*/
+    festival(Festival, _, _, PrecioBase),
+    Precio is ((PrecioBase + 200)/Fila).
