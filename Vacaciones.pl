@@ -1,4 +1,4 @@
-seVa(dodain,pehuenia).
+eVa(dodain,pehuenia).
 seVa(dodain,sanMartin).
 seVa(dodain,esquel).
 seVa(dodain,sarmiento).
